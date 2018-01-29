@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace If.InsuranceCompany.Models
 {
@@ -14,6 +15,7 @@ namespace If.InsuranceCompany.Models
         /// Name of insured object
         /// </summary>
         [Key]
+#warning TODO: There could be several policies with the same insured object name, but different effective date
         public string NameOfInsuredObject { get; set; }
 
         /// <summary>
@@ -30,7 +32,21 @@ namespace If.InsuranceCompany.Models
         /// Total price of the policy. Calculate by summing up all insured risks.
         /// Take into account that risk price is given for 1 full year. Policy/risk period can be shorter.
         /// </summary>
-        public decimal Premium { get; set; }
+#warning TOOD: Premium must be calculated according to risk validity period.
+        public decimal Premium
+        {
+            get
+            {
+                if (this.InsuredRisks != null)
+                    return this.InsuredRisks.Sum(q => q.YearlyPrice);
+
+                return 0;
+            }
+
+            set
+            {
+            }
+        }
 
         /// <summary>
         /// Initially included risks of risks at specific moment of time.

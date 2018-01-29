@@ -16,7 +16,7 @@ namespace If.InsuranceCompany.Models
         /// <summary>
         /// List of the risks that can be insured. List can be updated at any time
         /// </summary>
-        IList<Risk> AvailableRisks();
+        IList<Risk> AvailableRisks { get; set; }
 
         /// <summary>
         /// Sell the policy.

@@ -1,7 +1,6 @@
 using If.InsuranceCompany.Models;
 using If.InsuranceCompany.Web.Controllers;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +36,11 @@ namespace If.InsuranceCompany.Tests
             var context = new InsuranceCompanyContext(builder.Options);
             context.Database.EnsureDeleted();
 
+            var risks = Enumerable.Range(1, 10)
+                .Select(i => new Risk() { Name = $"Risk_{i}", YearlyPrice = i / 10m }).ToList();
+            context.Risks.AddRange(risks);
+
+
             var policies = Enumerable.Range(1, 10)
                 .Select(i => new Policy
                 {
@@ -44,11 +48,20 @@ namespace If.InsuranceCompany.Tests
                     Premium = i / 100m,
                     ValidFrom = new DateTime(2020 + i, 1, 1),
                     ValidTill = new DateTime(2021 + i, 1, 1),
-                    InsuredRisks = new List<Risk>() { new Risk() { Name = $"Risk_{i}", YearlyPrice = i / 10m } }
+                    InsuredRisks = risks //new List<Risk>() { new Risk() { Name = $"Risk_{i}1", YearlyPrice = i / 10m } }
                 });
             context.Policies.AddRange(policies);
             int changed = context.SaveChanges();
             _dbContext = context;
+        }
+
+        /// <summary>
+        /// Tests the available risks CRUD.
+        /// </summary>
+        [Fact]
+        public void TestAvailableRisksCRUD()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -87,6 +100,7 @@ namespace If.InsuranceCompany.Tests
             Assert.Equal(expectedPolicy.NameOfInsuredObject, result.NameOfInsuredObject);
             Assert.Equal(expectedPolicy.ValidFrom, result.ValidFrom);
             Assert.Equal(expectedPolicy.ValidTill, result.ValidTill);
+            Assert.Equal(expectedPolicy.Premium, expectedPolicy.InsuredRisks.Sum(q => q.YearlyPrice));
             Assert.Equal(expectedPolicy.InsuredRisks.FirstOrDefault().Name, result.InsuredRisks.FirstOrDefault().Name);
             Assert.Equal(expectedPolicy.InsuredRisks.FirstOrDefault().YearlyPrice, result.InsuredRisks.FirstOrDefault().YearlyPrice);
         }
@@ -101,7 +115,7 @@ namespace If.InsuranceCompany.Tests
             var expectedValidFrom = new DateTime(2021, 1, 1);
             var expectedRisk = new Risk()
             {
-                Name = "Risk_Add",
+                Name = "Risk_add",
                 YearlyPrice = 1.2m
             };
 

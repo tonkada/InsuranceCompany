@@ -35,8 +35,18 @@ namespace If.InsuranceCompany.Web.Controllers
         /// <returns>
         /// List of the risks.
         /// </returns>
-        [HttpGet("[action]")]
-        public IList<Risk> AvailableRisks() => _dbContext.Risks.ToList();
+#warning TODO: You can add or remove risks at any moment within policy period!
+        public IList<Risk> AvailableRisks
+        {
+            get
+            {
+                return this._dbContext.Risks.ToList();
+            }
+
+            set
+            {
+            }
+        }
 
         /// <summary>
         /// Sell the policy.
