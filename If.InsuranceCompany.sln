@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "If.InsuranceCompany.Web", "If.InsuranceCompany.Web\If.InsuranceCompany.Web.csproj", "{A6CC1C7D-7F7E-4F96-9939-C0A9167B260B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "If.InsuranceCompany.Tests", "If.InsuranceCompany.Tests\If.InsuranceCompany.Tests.csproj", "{04DE33BC-4087-404E-92AC-CA8A5CC2CAC2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A6CC1C7D-7F7E-4F96-9939-C0A9167B260B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6CC1C7D-7F7E-4F96-9939-C0A9167B260B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6CC1C7D-7F7E-4F96-9939-C0A9167B260B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6CC1C7D-7F7E-4F96-9939-C0A9167B260B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04DE33BC-4087-404E-92AC-CA8A5CC2CAC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04DE33BC-4087-404E-92AC-CA8A5CC2CAC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04DE33BC-4087-404E-92AC-CA8A5CC2CAC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04DE33BC-4087-404E-92AC-CA8A5CC2CAC2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FB8F4BA2-C2D3-4A56-81C6-9AE48CDA9B7F}
+	EndGlobalSection
+EndGlobal
