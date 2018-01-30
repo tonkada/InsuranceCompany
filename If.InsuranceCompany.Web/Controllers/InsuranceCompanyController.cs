@@ -2,10 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace If.InsuranceCompany.Web.Controllers
 {
+    /// <summary>
+    /// Insurance company controller implementing interface.
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
+    /// <seealso cref="If.InsuranceCompany.Models.IInsuranceCompany" />
     [Route("api/[controller]")]
     public class InsuranceCompanyController : Controller, IInsuranceCompany
     {
@@ -24,29 +28,17 @@ namespace If.InsuranceCompany.Web.Controllers
         }
 
         /// <summary>
-        /// Name of Insurance company.
+        /// Name of Insurance company
         /// </summary>
-        public string Name { get { return this._dbContext.Name; } }
+        public string Name => this._dbContext.Name;
 
         /// <summary>
-        /// GET: api/InsuranceCompany/AvailableRisks.
-        /// List of the risks that can be insured. List can be updated at any time.
+        /// List of the risks that can be insured. List can be updated at any time
         /// </summary>
-        /// <returns>
-        /// List of the risks.
-        /// </returns>
-#warning TODO: You can add or remove risks at any moment within policy period!
-        public IList<Risk> AvailableRisks
-        {
-            get
-            {
-                return this._dbContext.Risks.ToList();
-            }
-
-            set
-            {
-            }
-        }
+        /// <exception cref="NotImplementedException">
+        /// </exception>
+#warning TODO: PICKLE: You can add or remove risks at any moment within policy period!
+        public IList<Risk> AvailableRisks { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         /// <summary>
         /// Sell the policy.

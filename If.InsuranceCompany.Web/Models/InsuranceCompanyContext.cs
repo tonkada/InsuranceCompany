@@ -103,7 +103,12 @@ namespace If.InsuranceCompany.Models
             if (policy == null)
                 throw new PolicyNotFoundException(string.Format("Error: No policy found '{0}'!", nameOfInsuredObject));
 
-            policy.InsuredRisks.Remove(risk);
+            var riskToRemove = policy.InsuredRisks.FirstOrDefault(q => q.Name == risk.Name && q.YearlyPrice == risk.YearlyPrice);
+
+            if (riskToRemove == null)
+                throw new Exception(string.Format("Error: No risk to remove '{0}'!", risk.Name));
+
+            policy.InsuredRisks.Remove(riskToRemove);
             this.SaveChanges();
         }
     }

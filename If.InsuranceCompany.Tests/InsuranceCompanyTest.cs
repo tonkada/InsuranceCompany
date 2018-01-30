@@ -40,15 +40,14 @@ namespace If.InsuranceCompany.Tests
                 .Select(i => new Risk() { Name = $"Risk_{i}", YearlyPrice = i / 10m }).ToList();
             context.Risks.AddRange(risks);
 
-
             var policies = Enumerable.Range(1, 10)
                 .Select(i => new Policy
                 {
                     NameOfInsuredObject = $"Policy_{i}",
                     Premium = i / 100m,
-                    ValidFrom = new DateTime(2020 + i, 1, 1),
-                    ValidTill = new DateTime(2021 + i, 1, 1),
-                    InsuredRisks = risks //new List<Risk>() { new Risk() { Name = $"Risk_{i}1", YearlyPrice = i / 10m } }
+                    ValidFrom = new DateTime(2019, 1, 1),
+                    ValidTill = new DateTime(2020, 1, 1),
+                    InsuredRisks = risks
                 });
             context.Policies.AddRange(policies);
             int changed = context.SaveChanges();
@@ -71,7 +70,7 @@ namespace If.InsuranceCompany.Tests
         public void TestGetPolicy()
         {
             var expectedNameOfInsuredObject = "Policy_1";
-            var expectedValidFrom = new DateTime(2021, 1, 1);
+            var expectedValidFrom = new DateTime(2019, 1, 1);
 
             var controller = new InsuranceCompanyController(_dbContext);
             var result = controller.GetPolicy(expectedNameOfInsuredObject, expectedValidFrom);
@@ -88,8 +87,8 @@ namespace If.InsuranceCompany.Tests
             var expectedPolicy = new Policy()
             {
                 NameOfInsuredObject = "Policy_11",
-                ValidFrom = new DateTime(2021, 1, 1),
-                ValidTill = new DateTime(2022, 1, 1),
+                ValidFrom = new DateTime(2019, 1, 1),
+                ValidTill = new DateTime(2020, 1, 1),
                 InsuredRisks = new List<Risk>() { new Risk() { Name = "Risk_11", YearlyPrice = 1.1m } }
             };
 
@@ -111,22 +110,22 @@ namespace If.InsuranceCompany.Tests
         [Fact]
         public void TestAddRisk()
         {
-            var expectedNameOfInsuredObject = "Policy_1";
-            var expectedValidFrom = new DateTime(2021, 1, 1);
+            var nameOfInsuredObject = "Policy_1";
+            var validFrom = new DateTime(2019, 1, 1);
             var expectedRisk = new Risk()
             {
-                Name = "Risk_add",
+                Name = "Risk_11",
                 YearlyPrice = 1.2m
             };
 
             var controller = new InsuranceCompanyController(_dbContext);
-            controller.AddRisk(expectedNameOfInsuredObject, expectedRisk, expectedValidFrom);
+            controller.AddRisk(nameOfInsuredObject, expectedRisk, validFrom);
 
-            var result = controller.GetPolicy(expectedNameOfInsuredObject, expectedValidFrom).InsuredRisks;
+            var result = controller.GetPolicy(nameOfInsuredObject, validFrom);
+            var risk = result.InsuredRisks.FirstOrDefault(q => q.Name == expectedRisk.Name && q.YearlyPrice == expectedRisk.YearlyPrice);
 
-            Assert.Equal(2, result.Count);
-            Assert.Equal(expectedRisk.Name, result[1].Name);
-            Assert.Equal(expectedRisk.YearlyPrice, result[1].YearlyPrice);
+            Assert.Equal(expectedRisk.Name, risk.Name);
+            Assert.Equal(expectedRisk.YearlyPrice, risk.YearlyPrice);
         }
 
         /// <summary>
@@ -135,20 +134,20 @@ namespace If.InsuranceCompany.Tests
         [Fact]
         public void TestRemoveRisk()
         {
-            var expectedNameOfInsuredObject = "Policy_1";
-            var expectedValidFrom = new DateTime(2021, 1, 1);
-            var expectedRisk = new Risk()
+            var nameOfInsuredObject = "Policy_1";
+            var validFrom = new DateTime(2019, 1, 1);
+            var riskToRemove = new Risk()
             {
                 Name = "Risk_1",
                 YearlyPrice = 0.1m
             };
 
             var controller = new InsuranceCompanyController(_dbContext);
-            controller.RemoveRisk(expectedNameOfInsuredObject, expectedRisk, expectedValidFrom);
+            controller.RemoveRisk(nameOfInsuredObject, riskToRemove, validFrom);
 
-            var result = controller.GetPolicy(expectedNameOfInsuredObject, expectedValidFrom).InsuredRisks;
+            var result = controller.GetPolicy(nameOfInsuredObject, validFrom).InsuredRisks;
 
-            Assert.Equal(1, result.Count);
+            Assert.Equal(9, result.Count);
         }
     }
 }
